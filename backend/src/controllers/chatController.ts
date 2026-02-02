@@ -57,7 +57,12 @@ export async function getOrCreateChat(
       return res.status(400).json({ message: "Invalid participant ID" });
     }
 
-    // Check if a chat already exists between the two users
+    if (userId === participantId) {
+      res.status(400).json({ message: "Cannot create chat with yourself" });
+      return;
+    }
+
+    // Check for existing chat
     let chat = await Chat.findOne({
       participants: { $all: [userId, participantId] },
     })
