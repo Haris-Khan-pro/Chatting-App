@@ -354,7 +354,6 @@ Current performance is not optimized. Known issues:
 
 ## Contact & Support
 
-- **Discord:** [Your Discord Server](https://discord.gg/deadcode.lifter)
 - **Issues:** [GitHub Issues](https://github.com/Haris-Khan-pro/Chatting-App/issues)
 - **Email:** hariskhan01.gsm@gmail.com
 
