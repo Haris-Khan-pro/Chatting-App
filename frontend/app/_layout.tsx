@@ -4,12 +4,36 @@ import { ClerkProvider } from "@clerk/clerk-expo";
 import { tokenCache } from '@clerk/clerk-expo/token-cache'
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import AuthSync from "@/components/AuthSync";
+import { StatusBar } from "expo-status-bar";
+import * as Sentry from '@sentry/react-native';
 
-export default function RootLayout() {
+Sentry.init({
+  dsn: 'https://5eeddd4b696675434d5a11a1eb952dee@o4510844860432384.ingest.us.sentry.io/4510844902965248',
+
+  // Adds more context data to events (IP address, cookies, user, etc.)
+  // For more information, visit: https://docs.sentry.io/platforms/react-native/data-management/data-collected/
+  sendDefaultPii: true,
+
+  // Enable Logs
+  enableLogs: true,
+
+  // Configure Session Replay
+  replaysSessionSampleRate: 0.1,
+  replaysOnErrorSampleRate: 1,
+  integrations: [Sentry.mobileReplayIntegration()],
+
+  // uncomment the line below to enable Spotlight (https://spotlightjs.com)
+  // spotlight: __DEV__,
+});
+
+export default Sentry.wrap(function RootLayout() {
   const queryClient = new QueryClient();
   return (
     <ClerkProvider  tokenCache={tokenCache}>
       <QueryClientProvider client={queryClient}>
+        <AuthSync />
+        <StatusBar style="light"/>
         <Stack screenOptions={{ headerShown: false, contentStyle: {backgroundColor: "#0D0D0F"} }}>
           <Stack.Screen name="(auth)" options={{animation: "fade"}}/>
           <Stack.Screen name="(tabs)" options={{animation: "fade"}}/>
@@ -17,4 +41,4 @@ export default function RootLayout() {
       </QueryClientProvider>
     </ClerkProvider>
   );
-}
+});
